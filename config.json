@@ -1,0 +1,7 @@
+{
+    "mongo_config": {
+        "connection_string": "mongodb://admin:password@localhost:27017/weibo",
+        "dba_name": "",
+        "dba_password": ""
+    }
+}

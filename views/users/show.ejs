@@ -1,0 +1,60 @@
+<% layout('layouts/boilerplate')%>
+
+<h1><%= user.nickname %></h1>
+<h1>被删改的微博</h1>
+<p>共<%= weibos.length %> 条</p>
+<a href="https://weibo.com/u/<%= user.id %>" target="_blank" rel="noopener noreferrer">
+  <h2>前往原主页</h2>
+</a>
+<% for (let weibo of weibos){%>
+<div class="card <%= (weibo.state === 'MODIFIED') ? 'border-warning':'border-danger' %> mb-3">
+
+  <% if (weibo.state === "DELETED" ) { %>
+  <p class="card-header text-danger">DELETED</p>
+  <% } else if (weibo.state === "DELETED_ORIG" ) { %>
+  <p class="card-header text-danger">DELETED_ORIG</p>
+  <% } else { %>
+  <p class="card-header">Modified</p>
+  <% } %>
+  <div class="card-body">
+    <p class="card-text">
+      <small class="text-muted">
+        <%= weibo.publish_time %> 来自 <%= weibo.publish_tool %>
+      </small>
+    </p>
+    <p class="text-muted"><a href="https://weibo.cn/comment/<%= weibo.id %>" target="_blank" rel="noopener noreferrer"><%= weibo.id %></a></p>
+    <p class="card-text">
+      <%= weibo.content%>
+    </p>
+
+    <% if (weibo.original_pictures != "无") { %>
+    <div class="row">
+
+      <% for (let pic_link of weibo.original_pictures.split(",")) {%>
+      <div class="col-md-3">
+        <a href="<%= pic_link %>"><img src="<%= pic_link %>" class="img-thumbnail"></a>
+      </div>
+      <% } %>
+    </div>
+    <% } %>
+
+    <% if (weibo.retweet_pictures != "无") { %>
+    <div class="row">
+
+      <% for (let pic_link of weibo.retweet_pictures.split(",")) {%>
+      <div class="col-md-3">
+        <a href="<%= pic_link %>"><img src="<%= pic_link %>" class="img-thumbnail"></a>
+      </div>
+      <% } %>
+    </div>
+    <% } %>
+
+    <% if (weibo.video_url != "无") { %>
+    <div class="row">
+      <a class="text-center" href="<%= weibo.video_url %>">视频链接</a>
+    </div>
+    <% } %>
+
+  </div>
+</div>
+<% }%>

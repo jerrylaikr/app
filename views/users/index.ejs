@@ -1,0 +1,19 @@
+<% layout('layouts/boilerplate')%>
+
+<h1>所有用户</h1>
+<% for (let user of users){%>
+<div class="card mb-3">
+  <div class="card-body">
+    <a href="/users/show/<%= user.id %> ">
+      <h5 class="card-title">
+        <%= user.nickname %>
+      </h5>
+    </a>
+
+    <p class="card-text">
+      <%= user.description%>
+    </p>
+
+  </div>
+</div>
+<% }%>
