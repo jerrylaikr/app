@@ -79,14 +79,28 @@ app.get("/keepers", catchAsync(async (req, res) => {
     // const limit = parseInt(req.query.limit) || 20;
     const limit = 30;
 
+    // query filter
+    const filter = req.query.filter || "all";
+    const queryParam = {};
+    switch (filter) {
+        case "all":
+            break;
+        case "deleted":
+            queryParam["state"] = { "$regex": "DELETED" };
+            break;
+        case "modified":
+            queryParam["state"] = "MODIFIED";
+            break;
+    }
+
     // get total number of pages
-    const count = await Keepers.countDocuments({});
+    const count = await Keepers.countDocuments(queryParam);
     const totalPages = Math.ceil(count / limit);
 
     // pagination via mongoose query skip()
     const skip = (page - 1) * limit;
 
-    const weibos = await Keepers.find({})
+    const weibos = await Keepers.find(queryParam)
         .sort({ "publish_time": -1 })
         .skip(skip)
         .limit(limit);
@@ -94,7 +108,7 @@ app.get("/keepers", catchAsync(async (req, res) => {
     for (let weibo of weibos) {
         weibo.user_nickname = users_map.get(weibo.user_id);
     }
-    res.render("keepers", { weibos, totalPages, page, limit, count });
+    res.render("keepers", { weibos, totalPages, page, limit, count, filter });
 }));
 
 // 查看所有用户
