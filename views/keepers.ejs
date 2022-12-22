@@ -1,15 +1,15 @@
 <% layout('layouts/boilerplate')%>
 
-<h1>被删改的微博</h1>
-<h4>共<%= count %>条，<%= totalPages %>页</h4>
+<h1 class="text-light">被删改的微博</h1>
+<h4 class="text-light">共<%= count %>条，<%= totalPages %>页</h4>
 <div class="mb-3">
-  <a class="btn <%= (filter==="all" || null)? 'btn-primary': 'btn-outline-primary'%>" href="/keepers/?filter=all">
+  <a class="btn <%= (filter==="all" || null)? 'btn-primary': 'btn-secondary'%>" href="/keepers/?filter=all">
     所有微博
   </a>
-  <a class="btn <%= (filter==="deleted" || null)? 'btn-primary': 'btn-outline-primary'%>" href="/keepers/?filter=deleted">
+  <a class="btn <%= (filter==="deleted" || null)? 'btn-primary': 'btn-secondary'%>" href="/keepers/?filter=deleted">
     被删除的
   </a>
-  <a class="btn <%= (filter==="modified" || null)? 'btn-primary': 'btn-outline-primary'%>" href="/keepers/?filter=modified">
+  <a class="btn <%= (filter==="modified" || null)? 'btn-primary': 'btn-secondary'%>" href="/keepers/?filter=modified">
     被编辑的
   </a>
 </div>
@@ -30,27 +30,27 @@
 </nav>
 
 <% for (let weibo of weibos){%>
-<div class="card <%= (weibo.state === 'MODIFIED') ? 'border-warning':'border-danger' %> mb-3">
+<div class="card bg-dark bg-opacity-75 text-white <%= (weibo.state === 'MODIFIED') ? 'border-warning':'border-danger' %> mb-3">
 
   <% if (weibo.state === "DELETED" ) { %>
-  <p class="card-header text-danger">DELETED</p>
+  <p class="card-header bg-danger text-light">DELETED</p>
   <% } else if (weibo.state === "DELETED_ORIG" ) { %>
-  <p class="card-header text-danger">DELETED_ORIG</p>
+  <p class="card-header bg-danger text-light">DELETED_ORIG</p>
   <% } else { %>
-  <p class="card-header">Modified</p>
+  <p class="card-header bg-warning text-dark">Modified</p>
   <% } %>
   <div class="card-body">
-    <a href="/users/show/<%= weibo.user_id %> ">
+    <a class="link-info" href="/users/show/<%= weibo.user_id %> ">
       <h5 class="card-title">
         <%= weibo.user_nickname %>
       </h5>
     </a>
     <p class="card-text">
-      <small class="text-muted">
+      <small class="text-light">
         <%= weibo.publish_time %> 来自 <%= weibo.publish_tool %>
       </small>
     </p>
-    <p class="text-muted"><a href="https://weibo.cn/comment/<%= weibo.id %>" target="_blank" rel="noopener noreferrer"><%= weibo.id %></a></p>
+    <p><a class="link-info" href="https://weibo.cn/comment/<%= weibo.id %>" target="_blank" rel="noopener noreferrer"><%= weibo.id %></a></p>
     <p class="card-text">
       <%= weibo.content%>
     </p>
