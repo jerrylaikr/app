@@ -60,7 +60,7 @@
 
       <% for (let pic_link of weibo.original_pictures.split(",")) {%>
       <div class="col-md-3">
-        <a href="<%= pic_link %>"><img src="<%= pic_link %>" class="img-thumbnail"></a>
+        <a href="<%= pic_link %>"><img src="<%= pic_link %>" referrerpolicy="no-referrer" class="img-thumbnail"></a>
       </div>
       <% } %>
     </div>
@@ -71,7 +71,7 @@
 
       <% for (let pic_link of weibo.retweet_pictures.split(",")) {%>
       <div class="col-md-3">
-        <a href="<%= pic_link %>"><img src="<%= pic_link %>" class="img-thumbnail"></a>
+        <a href="<%= pic_link %>"><img src="<%= pic_link %>" referrerpolicy="no-referrer" class="img-thumbnail"></a>
       </div>
       <% } %>
     </div>
