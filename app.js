@@ -11,6 +11,8 @@ const Feeds = require("./models/feeds");
 const Keepers = require("./models/keepers");
 const Users = require("./models/users");
 
+const PORT = 3000;
+
 // Read config file
 const config = JSON.parse(fs.readFileSync("./config.json", "utf8"));
 const connection_string = config.mongo_config.connection_string;
@@ -137,6 +139,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(3000, () => {
-    console.log('Serving on port 3000');
+app.listen(PORT, () => {
+    console.log(`Serving on port ${PORT}`);
 });
