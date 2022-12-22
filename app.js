@@ -74,11 +74,27 @@ app.get("/feeds", catchAsync(async (req, res) => {
 
 // 被删改的微博
 app.get("/keepers", catchAsync(async (req, res) => {
-    const weibos = await Keepers.find({}).sort({ "publish_time": -1 });
+    // pagination params
+    const page = parseInt(req.query.page) || 1;
+    // const limit = parseInt(req.query.limit) || 20;
+    const limit = 30;
+
+    // get total number of pages
+    const count = await Keepers.countDocuments({});
+    const totalPages = Math.ceil(count / limit);
+
+    // pagination via mongoose query skip()
+    const skip = (page - 1) * limit;
+
+    const weibos = await Keepers.find({})
+        .sort({ "publish_time": -1 })
+        .skip(skip)
+        .limit(limit);
+
     for (let weibo of weibos) {
         weibo.user_nickname = users_map.get(weibo.user_id);
     }
-    res.render("keepers", { weibos });
+    res.render("keepers", { weibos, totalPages, page, limit, count });
 }));
 
 // 查看所有用户
